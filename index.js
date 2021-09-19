@@ -5,8 +5,6 @@ const express = require("express");
 const dotenv = require("dotenv");
 dotenv.config();
 
-console.log(process.env.PORT, process.env.SMTP_EMAIL, process.env.SMTP_PASSWORD);
-
 // definir la variable de enrutamiento
 const routes = require("./routes/routes.js");
 
