@@ -1,0 +1,27 @@
+{
+  "name": "spameconomy",
+  "version": "1.0.0",
+  "description": "Envío de correos masivo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "start_dev": "nodemon index.js"
+  },
+  "keywords": [
+    "node",
+    "expres",
+    "server",
+    "mailer",
+    "nodemailer",
+    "npm"
+  ],
+  "author": "Dario Valenzuela",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.4",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "nodemailer": "^6.6.3"
+  }
+}
