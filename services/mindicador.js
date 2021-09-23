@@ -44,7 +44,7 @@ const  indicadores = async () => {
 }
 
 
-
+// hay que borrar lo anterior
 function consultaIndicadores2() {
     return new Promise ( (resolve, reject) => {
 

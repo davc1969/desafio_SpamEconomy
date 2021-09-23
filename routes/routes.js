@@ -17,14 +17,14 @@ async function sendTheMails(req, res, mailMessage) {
     console.log("Será que llegamos hasta acá?");
     mailMessage = contenido + mailMessage;
     mailMessage += "datos cortesía de SPAM Economy SPA (envíados por Darío Valenzuela... por fin!!!!)";
-    
+
     res.type('text/html');
     try {
         const mailResponse = await mailer.send(correos.split(","), asunto, mailMessage);
 
         res.write("all mails were succesfully sent <br>");
 
-    } 
+    }  
     catch (error) {
         console.log(`Something went wrong\n${error}`);
     }
