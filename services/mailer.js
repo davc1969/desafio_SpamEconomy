@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 
-function send(to, subject, text) {
+function send(to, subject, html) {
     return new Promise((resolve, reject) => {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -14,7 +14,7 @@ function send(to, subject, text) {
             from: process.env.SMTP_EMAIL,
             to,
             subject,
-            text
+            html
         };
 
         transporter.sendMail(mailOptions, (err, data) => {

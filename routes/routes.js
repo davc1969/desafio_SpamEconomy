@@ -11,6 +11,28 @@ const router = express.Router();
 const mailer = require("../services/mailer");
 
 
+async function sendTheMails(req, res, mailMessage) {
+    const { correos, asunto, contenido } = req.query;
+
+    console.log("Será que llegamos hasta acá?");
+    mailMessage = contenido + mailMessage;
+    mailMessage += "datos cortesía de SPAM Economy SPA (envíados por Darío Valenzuela... por fin!!!!)";
+    
+    res.type('text/html');
+    try {
+        const mailResponse = await mailer.send(correos.split(","), asunto, mailMessage);
+
+        res.write("all mails were succesfully sent <br>");
+
+    } 
+    catch (error) {
+        console.log(`Something went wrong\n${error}`);
+    }
+    finally {
+        res.end("And that finished the mailing operations.");
+    }
+}
+
 // Se crean las rutas y sus manejadores
 router.get("/", (req, res) => {
     // let message = "Nothing to see here" + "<br>";
@@ -24,21 +46,34 @@ router.get("/", (req, res) => {
     res.sendFile(path.join(__dirname +'/../public/index.html'));
 });
 
-router.get("/mailing", async (req, res) => {
+router.get("/mailing",  async(req, res) => {
 
-    console.log(req.query);
+    // antes de enviar correos hay que obtener lso indicadores:
 
-    const { correos, asunto, contenido } = req.query;
-    res.type('text/html');
-    try {
-        const mailResponse = await mailer.send(correos.split(","), asunto, contenido);
+    let arrayIndicators = [];
+    const indicadoresFinal = require("../services/mindicador")
+    indicadoresFinal.retornaIndicadores()
+    .then( (datos) => {
+        arrayIndicators = JSON.parse(datos);
 
-        res.write("Correos enviados exitosamente...");
 
-    } catch (error) {
-        console.log(`Something went wrong\n${error}`);
-    }
-    res.end("And that finished the mailing system");
+        let mailMessage = "";
+        console.log("llegamos aqui al menos");
+        arrayIndicators.forEach(divisa => {
+            console.log(divisa.indicador, divisa.valor);
+            mailMessage += `El valor de 1 ${divisa.indicador} el día de hoy es: ${divisa.valor} pesos <br>`
+        });
+    
+        console.log(mailMessage);
+
+        sendTheMails(req, res, mailMessage)
+
+        
+    })
+    .catch( (error) => {
+        console.log("OCurrió un error", error.message);
+    });
+    
 })
 
 
